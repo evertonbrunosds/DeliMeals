@@ -1,39 +1,33 @@
+import 'package:deli_meals/screens/categories_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final theme = ThemeData(
+    canvasColor: const Color.fromRGBO(255, 254, 229, 1),
+    fontFamily: 'Raleway',
+    textTheme: ThemeData.light().textTheme.copyWith(
+          titleMedium: const TextStyle(
+            fontFamily: 'Roboto Condensed',
+            fontSize: 20,
+          ),
+        ),
+  );
+  MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'DeliMeals',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          primary: Colors.pink,
+          secondary: Colors.amber,
+        ),
       ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('DeliMeals'),
-      ),
-      body: const Center(
-        child: Text('Navegar é preciso!!'),
-      ),
+      home: const CategoriesScreen(),
     );
   }
 }
