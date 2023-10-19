@@ -1,3 +1,6 @@
+import 'package:deli_meals/data/dummy_data.dart';
+import 'package:deli_meals/models/meal.dart';
+import 'package:deli_meals/models/settings.dart';
 import 'package:deli_meals/screens/categories_meals_screen.dart';
 import 'package:deli_meals/screens/meal_detail_screen.dart';
 import 'package:deli_meals/screens/settings_screen.dart';
@@ -7,7 +10,8 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
   final theme = ThemeData(
     //COR DE FUNDO DA APLICAÇÃO
     canvasColor: const Color.fromRGBO(255, 254, 229, 1),
@@ -19,24 +23,46 @@ class MyApp extends StatelessWidget {
           ),
         ),
   );
-  MyApp({super.key});
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Settings settings = Settings();
+  List<Meal> _availableMeals = dummyMeals;
+  void _filterMeals(final Settings settings) {
+    setState(() {
+      _availableMeals = dummyMeals.where((meal) {
+        final filterGluten = settings.isGlutenFree && !meal.isGlutenFree;
+        final filterLactose = settings.isLactoseFree && !meal.isLactoseFree;
+        final filterVegan = settings.isVegan && !meal.isVegan;
+        final filterVegetarian = settings.isVegetarian && !meal.isVegetarian;
+        return !filterGluten &&
+            !filterLactose &&
+            !filterVegan &&
+            !filterVegetarian;
+      }).toList();
+    });
+  }
 
   @override
   Widget build(final BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'DeliMeals',
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
+      theme: widget.theme.copyWith(
+        colorScheme: widget.theme.colorScheme.copyWith(
           primary: Colors.pink,
           secondary: Colors.amber,
         ),
       ),
       routes: {
         AppRoutes.HOME: (_) => const TabsScreen(),
-        AppRoutes.CATEGORIES_MEALS: (_) => const CategoriesMealsScreen(),
+        AppRoutes.CATEGORIES_MEALS: (_) =>
+            CategoriesMealsScreen(meals: _availableMeals),
         AppRoutes.MEAL_DETAIL: (_) => const MealDetailScreen(),
-        AppRoutes.SETTINGS: (_) => const SettingsScreen(),
+        AppRoutes.SETTINGS: (_) =>
+            SettingsScreen(onSettingsChange: _filterMeals, settings: settings),
       },
       //SE UMA ROTA NÃO FOR ENCONTRADA, SOMOS DIRECIONADOS A OUTRA ROTA
       // onUnknownRoute: (settings) {
