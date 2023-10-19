@@ -1,10 +1,12 @@
 import 'package:deli_meals/components/main_drawer.dart';
+import 'package:deli_meals/models/meal.dart';
 import 'package:deli_meals/screens/categories_screen.dart';
 import 'package:deli_meals/screens/favorite_screen.dart';
 import 'package:flutter/material.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  const TabsScreen({super.key, required this.favoriteMeals});
+  final List<Meal> favoriteMeals;
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
@@ -21,17 +23,29 @@ class _TabScreenManager {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedScreenIndex = 0;
-  final List<_TabScreenManager> _tabScreenManagerList = const [
-    _TabScreenManager(title: 'Lista de Categorias', screen: CategoriesScreen()),
-    _TabScreenManager(title: 'Meus Favoritos', screen: FavoriteScreen()),
-  ];
+  late List<_TabScreenManager> _tabScreenManagerList;
 
   void _selectedScreen(final int index) {
     setState(() => _selectedScreenIndex = index);
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    _tabScreenManagerList = [
+      const _TabScreenManager(
+        title: 'Lista de Categorias',
+        screen: CategoriesScreen(),
+      ),
+      _TabScreenManager(
+        title: 'Meus Favoritos',
+        screen: FavoriteScreen(favoriteMeals: widget.favoriteMeals),
+      ),
+    ];
+  }
+
+  @override
+  Widget build(final BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_tabScreenManagerList[_selectedScreenIndex].title),
