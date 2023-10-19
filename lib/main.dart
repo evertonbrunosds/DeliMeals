@@ -70,8 +70,9 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.HOME: (_) => TabsScreen(favoriteMeals: _favoriteMeals),
         AppRoutes.CATEGORIES_MEALS: (_) =>
             CategoriesMealsScreen(meals: _availableMeals),
-        AppRoutes.MEAL_DETAIL: (_) =>
-            MealDetailScreen(onToggleFavorite: _toggleFavorite),
+        AppRoutes.MEAL_DETAIL: (_) => MealDetailScreen(
+            onToggleFavorite: _toggleFavorite,
+            isFavoriteMeal: _favoriteMeals.contains),
         AppRoutes.SETTINGS: (_) =>
             SettingsScreen(onSettingsChange: _filterMeals, settings: settings),
       },

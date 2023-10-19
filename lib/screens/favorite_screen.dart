@@ -15,7 +15,9 @@ class FavoriteScreen extends StatelessWidget {
         : ListView.builder(
             itemCount: favoriteMeals.length,
             itemBuilder: (_, index) {
-              return MealItem(meal: favoriteMeals[index]);
+              return MealItem(
+                meal: favoriteMeals[index],
+              );
             });
   }
 }
