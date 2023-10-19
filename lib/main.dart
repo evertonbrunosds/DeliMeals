@@ -1,5 +1,6 @@
 import 'package:deli_meals/screens/categories_meals_screen.dart';
 import 'package:deli_meals/screens/meal_detail_screen.dart';
+import 'package:deli_meals/screens/settings_screen.dart';
 import 'package:deli_meals/screens/tabs_screen.dart';
 import 'package:deli_meals/utils/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.HOME: (_) => const TabsScreen(),
         AppRoutes.CATEGORIES_MEALS: (_) => const CategoriesMealsScreen(),
-        AppRoutes.MEAL_DETAIL: (_) => const MealDetailScreen()
+        AppRoutes.MEAL_DETAIL: (_) => const MealDetailScreen(),
+        AppRoutes.SETTINGS: (_) => const SettingsScreen(),
       },
       //SE UMA ROTA NÃO FOR ENCONTRADA, SOMOS DIRECIONADOS A OUTRA ROTA
       // onUnknownRoute: (settings) {
